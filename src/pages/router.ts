@@ -1,40 +1,47 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { use_auth_store } from "../store/auth";
+import type { OmitReplace } from "../utils/types";
 import HomePage from "./HomePage.vue";
 import LoginPage from "./LoginPage.vue";
+import {
+  type Endpoint,
+  type ENDPOINT_NAME,
+  PRIVATE_ENDPOINTS,
+  PUBLIC_ENDPOINTS,
+} from "./const";
 
 const routes = [
   {
     path: "/",
+    name: "Home",
     component: HomePage,
   },
   {
     path: "/login",
+    name: "Login",
     component: LoginPage,
   },
   {
     path: "/about",
+    name: "About",
     component: () => import("./AboutPage.vue"),
   },
-] as const;
+] satisfies OmitReplace<Parameters<typeof createRouter>[0]["routes"][number], {
+  path: keyof typeof ENDPOINT_NAME;
+  name: typeof ENDPOINT_NAME[keyof typeof ENDPOINT_NAME];
+}>[];
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-const public_routes = [
-  "/about",
-  "/login",
-] satisfies typeof routes[number]["path"][];
 router.beforeEach((to) => {
-  const only_public = (public_routes as string[]).includes(to.path);
+  const auth = use_auth_store();
 
-  if (!only_public) {
-    const auth = use_auth_store();
-
-    if (!auth.user) {
-      return "/login" satisfies typeof public_routes[number];
-    }
+  if (auth.user && (PUBLIC_ENDPOINTS as string[]).includes(to.path)) {
+    return "/" satisfies Endpoint;
+  } else if ((PRIVATE_ENDPOINTS as string[]).includes(to.path)) {
+    return "/login" satisfies Endpoint;
   }
 });
 

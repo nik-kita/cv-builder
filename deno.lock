@@ -3,6 +3,7 @@
   "packages": {
     "specifiers": {
       "npm:@vitejs/plugin-vue@^4.5.2": "npm:@vitejs/plugin-vue@4.6.2_vite@5.1.5_vue@3.4.21",
+      "npm:@vue/tsconfig": "npm:@vue/tsconfig@0.5.1",
       "npm:pinia": "npm:pinia@2.1.7_vue@3.4.21",
       "npm:vite": "npm:vite@5.1.5",
       "npm:vite@^5.0.10": "npm:vite@5.1.5",
@@ -246,6 +247,10 @@
       },
       "@vue/shared@3.4.21": {
         "integrity": "sha512-PuJe7vDIi6VYSinuEbUIQgMIRZGgM8e4R+G+/dQTk0X1NEdvgvvgv7m+rfmDH1gZzyA1OjjoWskvHlfRNfQf3g==",
+        "dependencies": {}
+      },
+      "@vue/tsconfig@0.5.1": {
+        "integrity": "sha512-VcZK7MvpjuTPx2w6blwnwZAu5/LgBUtejFOi3pPGQFXQN5Ela03FUtd2Qtg4yWGGissVL0dr6Ro1LfOFh+PCuQ==",
         "dependencies": {}
       },
       "csstype@3.1.3": {
