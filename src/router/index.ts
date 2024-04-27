@@ -7,7 +7,14 @@ export const init_router = () => {
     routes: [
       {
         path: "/",
+        name: "home",
         component: HomePage,
+      },
+      /**@description 404 catch-all => redirect to home */
+      {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+        redirect: { name: "home" },
       },
     ],
   });

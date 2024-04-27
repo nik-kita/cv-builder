@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import RootLayout from '@/layouts/RootLayout.vue';
+
+
+</script>
 <template>
-  <h1>Home</h1>
+  <RootLayout>
+    <h1>Home</h1>
+  </RootLayout>
 </template>
