@@ -1,13 +1,14 @@
 import { get_access } from "@/stuff/get_access";
 import { get_refresh } from "@/stuff/get_refresh";
 import { update_tokens } from "@/stuff/update_tokens";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { api_logout } from "./api/api_logout";
 import { api_sign_in } from "./api/api_sign_in";
 
 const auth_state = ref<"user" | "guest">(
   get_refresh() && get_access() ? "user" : "guest",
 );
+const is_user = computed(() => auth_state.value === 'user');
 const do_logout = () => {
   const refresh = get_refresh();
 
@@ -37,6 +38,7 @@ const do_sign_in = async (
 
 export const use_auth = () => {
   return {
+    is_user,
     auth_state,
     do_sign_in,
     do_logout,

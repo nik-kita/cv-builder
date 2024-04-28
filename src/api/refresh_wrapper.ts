@@ -19,16 +19,10 @@ export const refresh_wrapper = <
 
     try {
       const res = await api_call(access_token, ..._args);
-
       return res;
     } catch (err: any) {
-      // TODO explore error structure and rm these logs
-      console.log("http error");
-      console.log(err);
-      console.log("err.code", err.code);
-      console.log("err.status", err.status);
 
-      if (err.code && [401, 403].includes(err.code)) {
+      if (err.status && [401, 403].includes(err.status)) {
         const refresh = get_refresh();
 
         if (!refresh) {

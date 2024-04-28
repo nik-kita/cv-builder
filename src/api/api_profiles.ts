@@ -12,7 +12,7 @@ const origin_api_profiles = async (access_token: string) => {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch profiles");
+    throw res;
   }
 
   const profiles = await res.json();
