@@ -9,6 +9,10 @@ export const init_router = () => {
         path: "/",
         component: HomePage,
       },
+      {
+        path: "/:username",
+        component: HomePage,
+      },
     ],
   });
 
