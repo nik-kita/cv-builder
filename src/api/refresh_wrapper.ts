@@ -2,7 +2,7 @@ import { get_refresh_token, update_tokens } from "@/common/tokens";
 import { api_refresh } from "./api_refresh";
 
 export const refresh_wrapper = <T extends (...args: any[]) => any>(fn: T) => {
-  return async (..._args: Tail<Parameters<T>>): Promise<ReturnType<T>> => {
+  return async (..._args: Parameters<T>): Promise<ReturnType<T>> => {
     try {
       const res = await fn(..._args);
 
