@@ -10,10 +10,12 @@ export const simple_fetch = async <T>(input: RequestInfo, init?: RequestInit) =>
   return response.json() as Promise<T>;
 };
 
-export const app_fetch = async <T>(input: RequestInfo, init?: RequestInit) => {
+const api_url = import.meta.env.VITE_API_URL;
+
+export const app_fetch = async <T>(endpoint: string, init?: RequestInit) => {
   const access_token = get_access_token();
 
-  return simple_fetch<T>(input, {
+  return simple_fetch<T>(api_url + endpoint, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
