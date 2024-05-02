@@ -13,6 +13,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@vueuse/core": "^10.9.0",
+    "@vueuse/integrations": "^10.9.0",
+    "focus-trap": "^7.5.4",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",
     "vue3-google-login": "^2.0.26"

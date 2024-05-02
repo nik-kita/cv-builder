@@ -39,7 +39,7 @@ export interface paths {
   };
   "/user/nik/{nik}": {
     /** Modify Nik */
-    patch: operations["modify_nik_user_nik__nik__patch"];
+    put: operations["modify_nik_user_nik__nik__put"];
   };
   "/user/{nik}": {
     /** Get Public By Nik */
@@ -588,7 +588,7 @@ export interface operations {
     };
   };
   /** Modify Nik */
-  modify_nik_user_nik__nik__patch: {
+  modify_nik_user_nik__nik__put: {
     parameters: {
       path: {
         nik: string;
