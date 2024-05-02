@@ -1,11 +1,17 @@
 import { computed, ref, watchEffect } from 'vue';
 import type { Router } from 'vue-router';
 import { api_logout } from './api/api_logout';
+import { get_info } from './common/info';
 import { get_refresh_token, update_tokens } from './common/tokens';
 
+
+const prev_refresh_token = get_refresh_token();
+const prev_username = get_info()?.username;
 const user = ref<{
   username?: string | null;
-}>();
+} | undefined | null>(prev_refresh_token ? {
+  username: prev_username,
+} : undefined);
 const username = computed(() => user.value?.username);
 const role = ref<'guest' | 'user.owner' | 'user.guest'>('guest');
 

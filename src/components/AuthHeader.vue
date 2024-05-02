@@ -20,6 +20,7 @@ const callback: CallbackTypes.CredentialCallback = async (res) => {
 
 <template>
   <GoogleLogin v-show="!user" :callback :error="console.error" />
+  <button v-show="user" @click="auth_stuff.logout">Logout</button>
   <button v-show="role === 'user.guest'">
     <RouterLink
       :to="`/${user?.username ? user.username : ''}${router.currentRoute.value.path.split('/').slice(2).join('/')}`">
