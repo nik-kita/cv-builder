@@ -19,8 +19,8 @@ const role_watcher = (router: Router) => {
   return watchEffect(() => {
     const u = user.value;
     const route = router.currentRoute.value;
-    const uname = username.value;
-    let upath = route.params.username;
+    const u_username = username.value;
+    const param_username = route.params.username;
 
     /**
      * @description compute /:username
@@ -28,10 +28,9 @@ const role_watcher = (router: Router) => {
     if (
       route.meta.is_usernamed
       && !route.params.username
-      && uname
+      && u_username
     ) {
-      upath = uname;
-      const path = `${upath}${route.path}`;
+      const path = `${u_username}${route.path}`;
 
       router.replace({ path });
     }
@@ -41,10 +40,13 @@ const role_watcher = (router: Router) => {
      */
     if (!u) {
       role.value = 'guest';
-    } else if (u.username) {
-      role.value = (!upath || uname === upath) ? 'user.owner' : 'user.guest';
-    } else if (upath) {
+      if (route.meta.is_private) {
+        router.push('/home');
+      }
+    } else if (param_username && param_username !== u_username) {
       role.value = 'user.guest';
+    } else {
+      role.value = 'user.owner';
     }
   });
 };
@@ -55,16 +57,20 @@ const success_sing_in = (res: ApiRes<'post', '/auth/sign-in'>) => {
 };
 
 const logout = () => {
-  const refresh_token = get_refresh_token();
-  update_tokens();
   user.value = undefined;
+  const refresh_token = get_refresh_token();
+
   if (!refresh_token) {
     console.error('refresh_token not found');
 
     return;
   }
 
-  api_logout({ refresh_token }).catch(console.error);
+  api_logout({ refresh_token })
+    .catch(console.error)
+    .finally(() => {
+      update_tokens();
+    });
 };
 
 export const auth_stuff = {
