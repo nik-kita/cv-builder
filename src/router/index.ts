@@ -8,10 +8,16 @@ export const init_router = () => {
       {
         path: "/",
         component: HomePage,
+        meta: {
+          is_usernamed: true,
+        }
       },
       {
         path: "/:username",
         component: HomePage,
+        meta: {
+          is_usernamed: true,
+        }
       },
     ],
   });

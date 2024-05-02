@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import UsernameWatcher from '@/components/UsernameWatcher.vue';
+import { role_watcher, use_auth } from '@/use_auth';
+import { onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 
-withDefaults(defineProps<{
-  is_usernamed?: boolean;
-}>(), {
-  is_usernamed: true,
-});
+const router = useRouter();
+const { user, role } = use_auth();
+
+onUnmounted(role_watcher(router));
 
 </script>
 <template>
-  <UsernameWatcher v-if="is_usernamed" />
   <slot></slot>
 </template>
