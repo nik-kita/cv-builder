@@ -1,13 +1,15 @@
 import { computed, ref, watchEffect } from 'vue';
 import type { Router } from 'vue-router';
+import { api_logout } from './api/api_logout';
+import { get_refresh_token, update_tokens } from './common/tokens';
 
 const user = ref<{
-  username?: string;
+  username?: string | null;
 }>();
 const username = computed(() => user.value?.username);
 const role = ref<'guest' | 'user.owner' | 'user.guest'>('guest');
 
-export const role_watcher = (router: Router) => {
+const role_watcher = (router: Router) => {
   return watchEffect(() => {
     const u = user.value;
     const route = router.currentRoute.value;
@@ -25,7 +27,6 @@ export const role_watcher = (router: Router) => {
       upath = uname;
       const path = `${upath}${route.path}`;
 
-      console.log(path);
       router.replace({ path });
     }
 
@@ -42,6 +43,29 @@ export const role_watcher = (router: Router) => {
   });
 };
 
+const success_sing_in = (res: ApiRes<'post', '/auth/sign-in'>) => {
+  update_tokens({ access_token: res.access_token, refresh_token: res.refresh_token });
+  user.value = { username: res.nik };
+};
+
+const logout = () => {
+  const refresh_token = get_refresh_token();
+  update_tokens();
+  user.value = undefined;
+  if (!refresh_token) {
+    console.error('refresh_token not found');
+
+    return;
+  }
+
+  api_logout({ refresh_token }).catch(console.error);
+};
+
+export const auth_stuff = {
+  success_sing_in,
+  logout,
+  role_watcher,
+};
 
 export const use_auth = () => {
   return {

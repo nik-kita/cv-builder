@@ -12,16 +12,16 @@ export const simple_fetch = async <T>(input: RequestInfo, init?: RequestInit) =>
 
 const api_url = import.meta.env.VITE_API_URL;
 
-export const app_fetch = async <T>(endpoint: string, init?: RequestInit) => {
+export const app_fetch = async <T>(endpoint: string, body?: object, init?: OmitStrict<RequestInit, 'body'>) => {
   const access_token = get_access_token();
 
   return simple_fetch<T>(api_url + endpoint, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
-      ...(access_token && { 'Authorization': `Bearer ${get_access_token()}` }),
       ...init?.headers,
+      ...(access_token && { 'Authorization': `Bearer ${access_token}` }),
     },
-    body: init?.body && JSON.stringify(init.body),
+    ...(body && { body: JSON.stringify(body) }),
   });
 };
