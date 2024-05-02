@@ -3,6 +3,7 @@ import type { Router } from 'vue-router';
 import { api_logout } from './api/api_logout';
 import { get_info } from './common/info';
 import { get_refresh_token, update_tokens } from './common/tokens';
+import { replace_position_with } from './utils/route_path_splitter';
 
 
 const prev_refresh_token = get_refresh_token();
@@ -45,6 +46,8 @@ const role_watcher = (router: Router) => {
       }
     } else if (param_username && param_username !== u_username) {
       role.value = 'user.guest';
+    } else if (route.meta.is_usernamed && !param_username && u_username) {
+      router.push(replace_position_with(route.path, 1, u_username));
     } else {
       role.value = 'user.owner';
     }
