@@ -20,5 +20,6 @@ export const app_fetch = async <T>(input: RequestInfo, init?: RequestInit) => {
       ...(access_token && { 'Authorization': `Bearer ${get_access_token()}` }),
       ...init?.headers,
     },
+    body: init?.body && JSON.stringify(init.body),
   });
 };
