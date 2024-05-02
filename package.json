@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "api:types": "curl http://localhost:3000/openapi.json > openapi.api.json && npx openapi-typescript ./openapi.api.json -o ./src/api/openapi.d.ts",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -26,6 +27,7 @@
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
     "npm-run-all2": "^6.1.1",
+    "openapi-typescript": "^6.7.5",
     "typescript": "~5.3.0",
     "vite": "^5.0.11",
     "vue-tsc": "^1.8.27"
